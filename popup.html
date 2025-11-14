@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGPT Queue</title>
+  <style>
+    body {
+      width: 320px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      background: #f8fafc;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1f2937;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .status.idle {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status.busy {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .queue-list {
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .queue-item {
+      padding: 8px 12px;
+      background: #f3f4f6;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: #374151;
+      border-left: 3px solid #3b82f6;
+    }
+
+    .queue-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .queue-empty {
+      text-align: center;
+      padding: 20px;
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    .button {
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .button:last-child {
+      margin-bottom: 0;
+    }
+
+    .button.primary {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .button.primary:hover {
+      background: #2563eb;
+    }
+
+    .button.danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .button.danger:hover {
+      background: #dc2626;
+    }
+
+    .button.secondary {
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .button.secondary:hover {
+      background: #e5e7eb;
+    }
+
+    .button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .info {
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">🚀 ChatGPT Queue Pro</div>
+    <div class="subtitle">Professional prompt queuing for ChatGPT</div>
+  </div>
+
+  <!-- Authentication Section -->
+  <div id="auth-section" class="section">
+    <div class="section-title">🔐 Sign In Required</div>
+    <div id="auth-status">
+      <div id="signed-out" style="text-align: center;">
+        <p style="margin-bottom: 12px; font-size: 13px; color: #374151;">
+          Sign in with Google to access premium features
+        </p>
+        <button id="google-signin" class="button primary" style="background: #4285f4;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KPGcgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xNi41IDE2LjV2LTE1SDE1djE0aDE0djF6IiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Ik0xNi41IDE2LjV2LTE1SDE1djE0aDE0djF6IiBmaWxsPSIjZmZmIi8+CjwvZz4KPGcgZmlsbD0iI2ZmZiI+CjxwYXRoIGQ9Ik0xNi41IDE2LjV2LTE1SDE1djE0aDE0djF6Ii8+CjwvZz4KPGcgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xNi41IDE2LjV2LTE1SDE1djE0aDE0djF6IiBmaWxsPSIjZmZmIi8+CjxwYXRoIGQ9Ik0xNi41IDE2LjV2LTE1SDE1djE0aDE0djF6IiBmaWxsPSIjZmZmIi8+CjwvZz4KPGcgZmlsbD0iI2ZmZiI+CjxwYXRoIGQ9Ik0xNi41IDE2LjV2LTE1SDE1djE0aDE0djF6Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K" alt="Google" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: middle;">
+          Sign in with Google
+        </button>
+      </div>
+      <div id="signed-in" style="display: none; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
+          <img id="user-avatar" src="" alt="Avatar" style="width: 24px; height: 24px; border-radius: 50%;">
+          <div style="text-align: left;">
+            <div id="user-name" style="font-size: 13px; font-weight: 500; color: #1f2937;"></div>
+            <div id="user-email" style="font-size: 11px; color: #6b7280;"></div>
+          </div>
+        </div>
+        <button id="google-signout" class="button secondary" style="width: auto; padding: 6px 12px; font-size: 12px;">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Premium Features (shown only when signed in) -->
+  <div id="premium-content" style="display: none;">
+
+  <div class="section">
+    <div class="section-title">🔗 Run Prompt Chain</div>
+    <label>Paste your chain (separate prompts with ~)</label>
+    <textarea id="prompt-chain" placeholder="Analyze this topic in depth~Identify key insights~List potential challenges~Suggest next steps" style="width: 100%; min-height: 80px; margin: 8px 0; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; font-family: monospace; font-size: 12px; resize: vertical;"></textarea>
+    <div style="font-size: 11px; color: #6b7280; margin-bottom: 12px; line-height: 1.4;">
+      Separate each prompt with ~ symbol. The extension will send them one by one, waiting for each response.
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button id="run-chain" class="button primary" style="flex: 1;">▶ Run Chain</button>
+      <button id="save-chain" class="button secondary" style="flex: 1;">💾 Save</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Status</div>
+    <div id="status" class="status idle">
+      <span id="status-icon">⚪</span>
+      <span id="status-text">Checking...</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Queue (<span id="queue-count">0</span>)</div>
+    <div id="queue-list" class="queue-list">
+      <div class="queue-empty">Queue is empty</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Actions</div>
+    <button id="clear-queue" class="button danger" disabled>🗑️ Clear Queue</button>
+    <button id="refresh" class="button secondary">🔄 Refresh Status</button>
+  </div>
+
+    <div class="section">
+      <div class="section-title">How it works</div>
+      <div class="info">
+        • Type a prompt while ChatGPT is responding<br>
+        • Press Enter → goes to queue<br>
+        • Auto-sends when ChatGPT finishes<br>
+        • Check console (F12) for logs
+      </div>
+    </div>
+  </div> <!-- End Premium Content -->
+
+  <script src="popup.js"></script>
+</body>
+</html>
