@@ -242,6 +242,23 @@ Outline article on [topic]~Write introduction~Develop main points~Create conclus
 Analyze feedback~Identify pain points~Rate by severity~Suggest solutions
 ```
 
+### Fun Creative Prompts
+```
+100 yes~100 no~100 maybe~100 why not
+```
+
+```
+Tell me a joke~Make it funnier~Make it even funnier~One more time
+```
+
+```
+What's the meaning of life?~Keep it short~Even shorter~One word only
+```
+
+```
+Write a haiku about coding~About coffee~About debugging~About success
+```
+
 ---
 
 ## 🔧 Customization
